@@ -66,7 +66,9 @@ class MapRenderer:
                 (int(map_data.width * options.scale), int(map_data.height * options.scale)),
                 resample=Image.Resampling.NEAREST,
             )
-        coordinates = CoordinateSystem.for_map(map_data, options.scale)
+        if options.border > 0:
+            image = _add_border(image, options.border, options.palette)
+        coordinates = CoordinateSystem.for_map(map_data, options.scale, options.border)
         if Layer.CHARGER in options.layers and map_data.charger is not None:
             image = _draw_charger(image, map_data.charger, coordinates, options)
         if Layer.PATH in options.layers:
@@ -124,6 +126,15 @@ def _floor_image(map_data: MapData, palette: Palette) -> PilImage:
                 color_cache[value] = cached
             rows += cached
     return Image.frombytes("RGBA", (map_data.width, map_data.height), bytes(rows))
+
+
+def _add_border(image: PilImage, border: int, palette: Palette) -> PilImage:
+    width, height = image.size
+    canvas = Image.new(
+        "RGBA", (width + border * 2, height + border * 2), tuple(_rgba(palette.outside))
+    )
+    canvas.alpha_composite(image, (border, border))
+    return canvas
 
 
 def _draw_charger(
