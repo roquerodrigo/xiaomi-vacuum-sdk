@@ -88,6 +88,12 @@ ignore = [
     "EM101",   # raw-string-in-exception
     "EM102",   # f-string-in-exception
     "TRY003",  # raise-vanilla-args
+    # A MIoT property value is naturally positional
+    # (``set_property(address, True)``); forcing it keyword-only would read
+    # worse at every call site.
+    "FBT001",  # boolean-type-hint-positional-argument
+    "FBT002",  # boolean-default-value-positional-argument
+    "FBT003",  # boolean-positional-value-in-call
 ]
 
 [tool.ruff.lint.pydocstyle]
