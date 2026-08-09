@@ -73,9 +73,12 @@ class MiotClient:
 
         Properties the device answered with a non-zero code — or did not
         answer at all — come back as ``None``. Requests are chunked because
-        the devices cap how many properties one command may carry.
+        the devices cap how many properties one command may carry. Reply
+        rows are matched by ``siid``/``piid`` — the vacuums echo their own
+        device id in ``did`` instead of the request's marker.
         """
         values: dict[str, PropertyValue] = dict.fromkeys(mapping)
+        names_by_address = {(address.siid, address.piid): name for name, address in mapping.items()}
         requests: list[JsonValue] = [
             {"did": name, "siid": address.siid, "piid": address.piid}
             for name, address in mapping.items()
@@ -85,10 +88,14 @@ class MiotClient:
             if not isinstance(result, list):
                 raise MiotConnectionError("Failed to read properties: unexpected reply shape")
             for row in result:
-                if not isinstance(row, dict):
+                if not isinstance(row, dict) or row.get("code") != 0:
                     continue
-                name = row.get("did")
-                if not isinstance(name, str) or name not in values or row.get("code") != 0:
+                siid = row.get("siid")
+                piid = row.get("piid")
+                if not isinstance(siid, int) or not isinstance(piid, int):
+                    continue
+                name = names_by_address.get((siid, piid))
+                if name is None:
                     continue
                 value = row.get("value")
                 if isinstance(value, bool | float | int | str):

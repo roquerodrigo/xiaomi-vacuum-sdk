@@ -45,14 +45,17 @@ async def test_info_returns_device_identity(fake_vacuum):
 
 async def test_get_properties_maps_values_by_name(fake_vacuum):
     def answer(payload):
+        # Real vacuums echo their own device id in `did`, not the request's
+        # marker — rows must resolve by siid/piid alone.
         rows = []
         for request in payload["params"]:
+            row = {**request, "did": "1154085352"}
             if request["did"] == "battery_level":
-                rows.append({**request, "code": -4004})
+                rows.append({**row, "code": -4004})
             elif request["did"] == "fan_speed":
                 continue
             else:
-                rows.append({**request, "code": 0, "value": 7})
+                rows.append({**row, "code": 0, "value": 7})
         return {"result": rows}
 
     fake_vacuum.handlers["get_properties"] = answer
