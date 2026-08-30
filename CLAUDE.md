@@ -58,6 +58,6 @@ inside HA.
 
 The suite is fully offline: the datagram transport is faked at the asyncio
 boundary, packet tests use golden vectors captured from the real devices,
-and map tests use real encrypted blobs from both reference models (fixtures
-under `tests/fixtures/`). Live validation against real vacuums happens via
+and map tests use golden encrypted blobs inlined in `tests/map_fixtures.py`.
+Live validation against real vacuums happens via
 `examples/`, which read host/token from `.env` (never committed).
