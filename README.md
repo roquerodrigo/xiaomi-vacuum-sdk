@@ -1,5 +1,7 @@
 # xiaomi-vacuum-sdk
 
+[![Sponsor](https://img.shields.io/badge/Sponsor-%E2%9D%A4-db61a2?logo=githubsponsors&logoColor=white&style=for-the-badge)](https://github.com/sponsors/roquerodrigo)
+
 Async Python SDK for Xiaomi MIoT robot vacuums: local control over the
 encrypted MIoT UDP protocol, and rendering of the cloud map blob to PNG.
 
@@ -68,6 +70,10 @@ wrap it in an executor inside async applications.
 
 `RenderOptions` controls palette, room colors, drawn layers, scale and
 element sizes; every field has a sensible default.
+
+## Support
+
+This SDK is built and maintained on personal time, on hardware bought for the purpose. If it is useful to you, consider [sponsoring the work](https://github.com/sponsors/roquerodrigo) — it keeps the devices, the testing and the releases coming.
 
 ## License
 
