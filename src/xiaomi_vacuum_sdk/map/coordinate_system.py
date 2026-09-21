@@ -49,3 +49,12 @@ class CoordinateSystem:
             grid_x * self.scale + self.offset,
             (self.grid_height - grid_y - 1) * self.scale + self.offset,
         )
+
+    def to_device(self, x: float, y: float) -> tuple[float, float]:
+        """Project one output-image pixel back onto the device frame."""
+        grid_x = (x - self.offset) / self.scale
+        grid_y = self.grid_height - 1 - (y - self.offset) / self.scale
+        return (
+            self.origin_x + grid_x * self.resolution,
+            self.origin_y + grid_y * self.resolution,
+        )

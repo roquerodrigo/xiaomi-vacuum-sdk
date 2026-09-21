@@ -84,3 +84,38 @@ def test_custom_palette_paints_the_border():
 def test_scale_one_keeps_native_dimensions():
     image = render_image(scale=1.0, border=0, layers=frozenset())
     assert image.size == (8, 8)
+
+
+def test_render_map_returns_the_same_png_as_render():
+    renderer = MapRenderer()
+    rendered = renderer.render_map(GOLDEN_BLOB, model=MODEL, device_id=DEVICE_ID)
+    assert rendered.png == renderer.render(GOLDEN_BLOB, model=MODEL, device_id=DEVICE_ID)
+
+
+def test_render_map_exposes_the_parsed_map():
+    rendered = MapRenderer().render_map(GOLDEN_BLOB, model=MODEL, device_id=DEVICE_ID)
+    assert (rendered.map_data.width, rendered.map_data.height) == (8, 8)
+    assert rendered.map_data.vacuum is not None
+
+
+def test_render_map_coordinates_describe_the_served_image():
+    options = RenderOptions(scale=4.0, border=5)
+    rendered = MapRenderer(options).render_map(GOLDEN_BLOB, model=MODEL, device_id=DEVICE_ID)
+    image = Image.open(io.BytesIO(rendered.png))
+    coordinates = rendered.coordinates
+    assert coordinates.scale == options.scale
+    assert coordinates.offset == options.border
+    assert coordinates.grid_height == rendered.map_data.height
+    # The padded canvas is the scaled grid plus a border on every side.
+    assert image.size == (
+        int(rendered.map_data.width * options.scale) + options.border * 2,
+        int(rendered.map_data.height * options.scale) + options.border * 2,
+    )
+
+
+def test_render_map_projects_the_vacuum_inside_the_image():
+    rendered = MapRenderer().render_map(GOLDEN_BLOB, model=MODEL, device_id=DEVICE_ID)
+    image = Image.open(io.BytesIO(rendered.png))
+    x, y = rendered.coordinates.to_image(rendered.map_data.vacuum)
+    assert 0 <= x < image.width
+    assert 0 <= y < image.height

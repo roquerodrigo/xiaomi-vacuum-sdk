@@ -12,7 +12,9 @@ replacement for `python-miio` and `vacuum-map-parser-xiaomi` in the
 - **`map/`** — cloud map blob to PNG: AES-CBC decrypt (key derived from
   model + device id, including the `xiaomi.` → `mi.` model-key quirk),
   optional `{"data": "<base64>"}` envelope unwrap, zlib inflate, JSON
-  payload parse into typed `MapData`, PIL render to PNG bytes. Rendering is
+  payload parse into typed `MapData`, PIL render to PNG bytes (or to a
+  `RenderedMap` carrying the `MapData` and `CoordinateSystem` behind the
+  image, so consumers never parse the same blob twice). Rendering is
   CPU-bound and sync — consumers wrap it in an executor.
 
 Supported devices are whatever the consumer maps: the SDK is model-agnostic

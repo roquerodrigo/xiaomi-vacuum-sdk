@@ -15,6 +15,7 @@ from .layer import Layer
 from .map_point import MapPoint
 from .payload_parser import MapPayloadParser
 from .render_options import RenderOptions
+from .rendered_map import RenderedMap
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Sequence
@@ -52,13 +53,24 @@ class MapRenderer:
 
     def render(self, blob: bytes, *, model: str, device_id: str) -> bytes:
         """Decrypt, parse and draw one map blob, returning finished PNG bytes."""
+        return self.render_map(blob, model=model, device_id=device_id).png
+
+    def render_map(self, blob: bytes, *, model: str, device_id: str) -> RenderedMap:
+        """
+        Render one map blob, returning the PNG with the geometry it was drawn from.
+
+        Use this instead of :meth:`render` when the caller also needs the parsed
+        map or the pixel projection — a second parse of the same blob would be
+        both wasted work and a chance to disagree with the served image.
+        """
         map_data = self._parser.parse(self._decryptor.decrypt(blob, model, device_id))
-        image = self._draw(map_data)
+        coordinates = CoordinateSystem.for_map(map_data, self._options.scale, self._options.border)
+        image = self._draw(map_data, coordinates)
         buffer = io.BytesIO()
         image.save(buffer, format="PNG")
-        return buffer.getvalue()
+        return RenderedMap(png=buffer.getvalue(), map_data=map_data, coordinates=coordinates)
 
-    def _draw(self, map_data: MapData) -> PilImage:
+    def _draw(self, map_data: MapData, coordinates: CoordinateSystem) -> PilImage:
         options = self._options
         image = _floor_image(map_data, options.palette)
         if options.scale != 1:
@@ -68,7 +80,6 @@ class MapRenderer:
             )
         if options.border > 0:
             image = _add_border(image, options.border, options.palette)
-        coordinates = CoordinateSystem.for_map(map_data, options.scale, options.border)
         if Layer.CHARGER in options.layers and map_data.charger is not None:
             image = _draw_charger(image, map_data.charger, coordinates, options)
         if Layer.PATH in options.layers:
