@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.1.1](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.0...v0.1.1) (2026-09-21)
+
+
+### Features
+
+* **map:** return the render geometry alongside the PNG ([f5bb8b9](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/commit/f5bb8b96b6358d9081ec3dbcb3ad8a2259be05f1))
+
+
+### Code Refactoring
+
+* **map:** return a map point from the pixel projection ([678325f](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/commit/678325f9d24257b311405f267e29010894c827b1))
+
+
+### Documentation
+
+* add GitHub Sponsors button and support section ([7ec0871](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/commit/7ec08719881d51e2511597e268ff0dc6d59d5e1e))
+* point at the inlined map fixtures ([8356d30](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/commit/8356d303b7b8c2d91a0441a847cdd0d030c08d8f))
+
 ## 0.1.0 (2026-08-09)
 
 
