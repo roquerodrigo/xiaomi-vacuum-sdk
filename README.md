@@ -84,7 +84,7 @@ rendered.map_data     # the parsed MapData: grid size, origin, resolution, featu
 rendered.coordinates  # the CoordinateSystem that projection used
 
 x, y = rendered.coordinates.to_image(rendered.map_data.vacuum)
-device_x, device_y = rendered.coordinates.to_device(x, y)
+device_point = rendered.coordinates.to_device(x, y)  # a MapPoint, in millimeters
 ```
 
 `CoordinateSystem.to_device` is the exact inverse of `to_image`, so consumers
