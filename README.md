@@ -71,6 +71,25 @@ wrap it in an executor inside async applications.
 `RenderOptions` controls palette, room colors, drawn layers, scale and
 element sizes; every field has a sensible default.
 
+When the caller also needs the map behind the image — to place overlays, or
+to translate a click on the PNG back into device coordinates — use
+`render_map`, which parses the blob once and hands back the geometry it drew
+from:
+
+```python
+rendered = renderer.render_map(blob, model="xiaomi.vacuum.d109gl", device_id="412345678")
+
+rendered.png          # the same bytes render() returns
+rendered.map_data     # the parsed MapData: grid size, origin, resolution, features
+rendered.coordinates  # the CoordinateSystem that projection used
+
+x, y = rendered.coordinates.to_image(rendered.map_data.vacuum)
+device_x, device_y = rendered.coordinates.to_device(x, y)
+```
+
+`CoordinateSystem.to_device` is the exact inverse of `to_image`, so consumers
+never have to reimplement the scale, border and Y-flip the renderer applied.
+
 ## Support
 
 This SDK is built and maintained on personal time, on hardware bought for the purpose. If it is useful to you, consider [sponsoring the work](https://github.com/sponsors/roquerodrigo) — it keeps the devices, the testing and the releases coming.

@@ -5,6 +5,7 @@ from __future__ import annotations
 from .json_types import JsonObject, JsonValue
 from .map import (
     Color,
+    CoordinateSystem,
     Layer,
     MapData,
     MapDecryptError,
@@ -14,6 +15,7 @@ from .map import (
     MapRenderer,
     Palette,
     Quadrilateral,
+    RenderedMap,
     RenderOptions,
     VirtualWall,
 )
@@ -32,6 +34,7 @@ from .miot import (
 __all__ = [
     "ActionAddress",
     "Color",
+    "CoordinateSystem",
     "DeviceInfo",
     "JsonObject",
     "JsonValue",
@@ -52,5 +55,6 @@ __all__ = [
     "PropertyValue",
     "Quadrilateral",
     "RenderOptions",
+    "RenderedMap",
     "VirtualWall",
 ]
