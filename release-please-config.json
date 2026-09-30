@@ -8,6 +8,13 @@
   "packages": {
     ".": {
       "package-name": "xiaomi-vacuum-sdk",
+      "extra-files": [
+        {
+          "type": "toml",
+          "path": "uv.lock",
+          "jsonpath": "$.package[?(@.name.value==\"xiaomi-vacuum-sdk\")].version"
+        }
+      ],
       "changelog-sections": [
         {
           "type": "feat",
