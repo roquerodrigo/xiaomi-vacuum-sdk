@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.1...v0.1.2) (2026-09-30)
+
+
+### Build System
+
+* **release:** bump uv.lock through release-please ([e0eb6cc](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/commit/e0eb6cc179a29f15127f9fee88c84340dc6f560e))
+
 ## [0.1.1](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.0...v0.1.1) (2026-09-21)
 
 
