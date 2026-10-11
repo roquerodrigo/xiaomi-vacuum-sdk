@@ -58,8 +58,11 @@ inside HA.
 
 ## Testing
 
-The suite is fully offline: the datagram transport is faked at the asyncio
-boundary, packet tests use golden vectors captured from the real devices,
-and map tests use golden encrypted blobs inlined in `tests/map_fixtures.py`.
+The suite is fully offline: the client talks to an in-process fake vacuum
+(`FakeVacuum` in `tests/conftest.py`) over a real loopback UDP socket,
+packet tests pin golden vectors that must match python-miio's bytes
+exactly, and map tests use golden encrypted blobs generated with the
+reference parser (`vacuum-map-parser-xiaomi`), inlined in
+`tests/map_fixtures.py`.
 Live validation against real vacuums happens via
 `examples/`, which read host/token from `.env` (never committed).
