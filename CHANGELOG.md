@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.2](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.1...v0.1.2) (2026-10-31)
+
+Internal maintenance only, with no changes for those who use the project.
+
 ## [0.1.1](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.0...v0.1.1) (2026-09-21)
 
 
