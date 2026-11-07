@@ -64,6 +64,16 @@ class MapRenderer:
         both wasted work and a chance to disagree with the served image.
         """
         map_data = self._parser.parse(self._decryptor.decrypt(blob, model, device_id))
+        return self.render_map_data(map_data)
+
+    def render_map_data(self, map_data: MapData) -> RenderedMap:
+        """
+        Render an already-parsed map, whatever format it was decoded from.
+
+        Lets decoders for other map formats (e.g. :class:`DreameMapDecoder`)
+        reuse the drawing pipeline: anything expressed as :class:`MapData`
+        renders exactly like a decrypted Xiaomi blob.
+        """
         coordinates = CoordinateSystem.for_map(map_data, self._options.scale, self._options.border)
         image = self._draw(map_data, coordinates)
         buffer = io.BytesIO()

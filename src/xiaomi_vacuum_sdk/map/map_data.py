@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from .map_point import MapPoint
+    from .map_segment import MapSegment
     from .quadrilateral import Quadrilateral
     from .virtual_wall import VirtualWall
 
@@ -20,6 +21,7 @@ class MapData:
     ``0`` outside, ``1``/``2`` floor, ``3``-``63`` a room, anything else a
     wall. Positions are in device (millimeter) coordinates anchored at
     ``origin_x``/``origin_y`` with ``resolution`` millimeters per cell.
+    ``segments`` lists the named rooms when the payload carries them.
     """
 
     width: int
@@ -35,3 +37,4 @@ class MapData:
     no_go_zones: tuple[Quadrilateral, ...]
     no_mop_zones: tuple[Quadrilateral, ...]
     zones: tuple[Quadrilateral, ...]
+    segments: tuple[MapSegment, ...] = ()
