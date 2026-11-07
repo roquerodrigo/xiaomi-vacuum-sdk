@@ -15,7 +15,11 @@ replacement for `python-miio` and `vacuum-map-parser-xiaomi` in the
   payload parse into typed `MapData`, PIL render to PNG bytes (or to a
   `RenderedMap` carrying the `MapData` and `CoordinateSystem` behind the
   image, so consumers never parse the same blob twice). Rendering is
-  CPU-bound and sync — consumers wrap it in an executor.
+  CPU-bound and sync — consumers wrap it in an executor. Dreame-built
+  models (e.g. `xiaomi.vacuum.c102gl`) use a different blob — url-safe
+  base64 zlib frame with a 27-byte header, a segment/wall pixel grid and a
+  JSON trailer — decoded by `DreameMapDecoder` into the same `MapData`
+  (plus `segments`) and drawn via `MapRenderer.render_map_data`.
 
 Supported devices are whatever the consumer maps: the SDK is model-agnostic
 and takes property/action addresses as input. Reference models are the
