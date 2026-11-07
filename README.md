@@ -90,6 +90,27 @@ device_point = rendered.coordinates.to_device(x, y)  # a MapPoint, in millimeter
 `CoordinateSystem.to_device` is the exact inverse of `to_image`, so consumers
 never have to reimplement the scale, border and Y-flip the renderer applied.
 
+### Dreame-built models
+
+Dreame-built vacuums sold under the Xiaomi brand (e.g. the X20+,
+`xiaomi.vacuum.c102gl`) store a different map format in the cloud: a
+url-safe base64 zlib frame (pixel grid plus a JSON trailer), optionally in a
+saved-map envelope. Decode it with `DreameMapDecoder`, then draw it with the
+same renderer:
+
+```python
+from xiaomi_vacuum_sdk import DreameMapDecoder, MapRenderer
+
+map_data = DreameMapDecoder().decode(blob)
+rendered = MapRenderer().render_map_data(map_data)
+
+map_data.segments  # (MapSegment(id=1, name="Living room"), ...): named rooms only
+```
+
+The segment ids are the ones the vacuum's room-clean command takes. Encrypted
+Dreame frames (a `,<key>` suffix) are not supported yet and raise
+`MapDecryptError`.
+
 ## Support
 
 This SDK is built and maintained on personal time, on hardware bought for the purpose. If it is useful to you, consider [sponsoring the work](https://github.com/sponsors/roquerodrigo) — it keeps the devices, the testing and the releases coming.
