@@ -21,7 +21,7 @@ class MapData:
     ``0`` outside, ``1``/``2`` floor, ``3``-``63`` a room, anything else a
     wall. Positions are in device (millimeter) coordinates anchored at
     ``origin_x``/``origin_y`` with ``resolution`` millimeters per cell.
-    ``segments`` lists the named rooms when the payload carries them.
+    ``segments`` lists the rooms when the payload carries them, unnamed ones included.
     """
 
     width: int
