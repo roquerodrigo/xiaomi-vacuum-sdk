@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.2](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.1...v0.1.2) (2026-11-08)
+
+This release adds support for maps from Dreame-built Xiaomi-brand vacuums, including their rooms, and moves release automation to Release Autopilot.
+
+### New features
+
+- Maps from Dreame-built vacuums sold under the Xiaomi brand, such as the X20+, can now be decoded and rendered, including the named rooms. ([#14](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/pull/14))
+- Parsed maps now list their rooms, including unnamed ones, so consumers can offer room-based cleaning for these models. ([#14](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/pull/14))
+
+### Improvements
+
+- Release notes and versioning are now handled by Release Autopilot, which keeps the release pull request up to date. ([#13](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/pull/13))
+
 ## [0.1.1](https://github.com/roquerodrigo/xiaomi-vacuum-sdk/compare/v0.1.0...v0.1.1) (2026-09-21)
 
 
